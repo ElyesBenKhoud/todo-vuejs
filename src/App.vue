@@ -38,7 +38,7 @@ const addTodo = () => {
 
   todos.value.push(newTodo);
   addTodoAndLoadLogo(newTodo);
-  showToast('Cumpărătură adăugat cu succes!', 2500, 'linear-gradient(90deg, rgba(106,215,73,1) 0%, rgba(126,236,79,1) 26%, rgba(176,255,251,1) 100%)');
+  showToast('✅ Cumpărătură adăugat cu succes!', 2500, 'linear-gradient(90deg, rgba(106,215,73,1) 0%, rgba(126,236,79,1) 26%, rgba(176,255,251,1) 100%)');
   input_content.value = '';
   input_category.value = null;
 };
@@ -64,7 +64,7 @@ const removeTodoAndLogo = (todo) => {
 
 const removeTodo = (todo) => {
   removeTodoAndLogo(todo);
-  showToast('Cumpărătură a fost șters cu succes!', 2500, 'linear-gradient(90deg, rgba(241,133,133,1) 0%, rgba(240,0,0,1) 99%, rgba(176,255,251,1) 100%)');
+  showToast('⛔ Cumpărătură a fost șters cu succes!', 2500, 'linear-gradient(90deg, rgba(241,133,133,1) 0%, rgba(240,0,0,1) 99%, rgba(176,255,251,1) 100%)');
 };
 
 const groupedTodosLocalStorage = ref(JSON.parse(localStorage.getItem('groupedTodos')) || {});
