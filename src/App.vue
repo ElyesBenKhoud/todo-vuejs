@@ -1,32 +1,24 @@
 <script setup>
-import { ref, onMounted, computed, watch,watchEffect } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue';
 
-const todos = ref([])
-const name = ref('')
+const todos = ref([]);
+const name = ref('');
 
-const input_content = ref('')
-const input_category = ref(null)
+const input_content = ref('');
+const input_category = ref(null);
 
-const todos_asc = computed(() => todos.value.sort((a,b) =>{
-	return a.createdAt - b.createdAt
-}))
 
 watch(name, (newVal) => {
-	localStorage.setItem('name', newVal)
-})
+  localStorage.setItem('name', newVal);
+});
 
-watch(todos, (newVal) => {
-	localStorage.setItem('todos', JSON.stringify(newVal))
-}, {
-	deep: true
-})
 
 const addTodo = () => {
-	if (input_content.value.trim() === '' || input_category.value === null) {
-		return
-	}
-	
-	const newTodo = {
+  if (input_content.value.trim() === '' || input_category.value === null) {
+    return;
+  }
+
+  const newTodo = {
     content: input_content.value,
     category: input_category.value,
     done: false,
@@ -35,42 +27,22 @@ const addTodo = () => {
   };
 
   todos.value.push(newTodo);
-  addTodoAndLoadLogo(newTodo); 
-}
+  addTodoAndLoadLogo(newTodo);
+
+  // Clear the input values
+  input_content.value = '';
+  input_category.value = null;
+};
 
 const removeTodo = (todo) => {
-	todos.value = todos.value.filter((t) => t !== todo)
-}
+  todos.value = todos.value.filter((t) => t !== todo);
+};
 
 onMounted(() => {
-	name.value = localStorage.getItem('name') || ''
-	todos.value = JSON.parse(localStorage.getItem('todos')) || []
-})
-
-// const groupedTodos = computed(() => {
-//   const grouped = {}
-
-//   todos.value.forEach((todo) => {
-//     if (!grouped[todo.category]) {
-      
-//       grouped[todo.category] = {
-//         name: todo.category,
-//         logoPath: '',
-//         todos: [],
-//       }
-
-//       // Asynchronously load the logo
-//       import(`./assets/${todo.category}Logo.png`).then((logoModule) => {
-//         grouped[todo.category].logoPath = logoModule.default;
-//       });
-//     }
-// 	grouped[todo.category].todos.push(todo)
-//   })
-
-//   return Object.values(grouped)
-// })
-
-
+  name.value = localStorage.getItem('name') || '';
+  // Load groupedTodos from localStorage on mount
+  groupedTodos.value = JSON.parse(localStorage.getItem('groupedTodos')) || {};
+});
 
 const loadLogo = async (category) => {
   const logoModule = await import(`./assets/${category}Logo.png`);
@@ -97,10 +69,15 @@ const addTodoAndLoadLogo = async (todo) => {
   }
 
   groupedTodos.value[todo.category].todos.push(todo);
+
+  // Save groupedTodos to localStorage after each update
+  localStorage.setItem('groupedTodos', JSON.stringify(groupedTodos.value));
 };
 
+const computedGroupedTodos = computed(() => Object.values(groupedTodos.value));
 
 </script>
+
 
 <template>
 	<main class="app">
@@ -171,7 +148,7 @@ const addTodoAndLoadLogo = async (todo) => {
 
 		<section class="todo-list">
 			<div class="list" id="todo-list">
-				<div v-for="magazine in groupedTodos" :key="magazine.name">
+				<div v-for="magazine in computedGroupedTodos" :key="magazine.name">
 					<img :src="magazine.logoPath" alt="Magazine Logo" class="store-logo" />
 				
 					<div v-for="todo in magazine.todos" :class="`todo-item ${todo.done && 'done'}`">
