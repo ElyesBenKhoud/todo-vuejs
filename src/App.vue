@@ -43,6 +43,23 @@ onMounted(() => {
 	name.value = localStorage.getItem('name') || ''
 	todos.value = JSON.parse(localStorage.getItem('todos')) || []
 })
+
+const groupedTodos = computed(() => {
+  const grouped = {}
+
+  todos.value.forEach((todo) => {
+    if (!grouped[todo.category]) {
+      grouped[todo.category] = {
+        name: todo.category,
+        todos: [],
+      }
+    }
+    grouped[todo.category].todos.push(todo)
+  })
+
+  return Object.values(grouped)
+})
+
 </script>
 
 <template>
@@ -111,29 +128,26 @@ onMounted(() => {
 			</form>
 		</section>
 
+
 		<section class="todo-list">
-			<h3>TODO LIST</h3>
 			<div class="list" id="todo-list">
+				<div v-for="magazine in groupedTodos" :key="magazine.name">
+					<h3>{{ magazine.name }}</h3>
+					<div v-for="todo in magazine.todos" :class="`todo-item ${todo.done && 'done'}`">
+						<label>
+							<input type="checkbox" v-model="todo.done" />
+							<span :class="`bubble ${todo.category}`"></span>
+						</label>
 
-				<div v-for="todo in todos_asc" :class="`todo-item ${todo.done && 'done'}`">
-					<label>
-						<input type="checkbox" v-model="todo.done" />
-						<span :class="`bubble ${
-							todo.category == 'kaufland' 
-								? 'kaufland' 
-								: 'lidl'
-						}`"></span>
-					</label>
+						<div class="todo-content">
+							<input type="text" v-model="todo.content" />
+						</div>
 
-					<div class="todo-content">
-						<input type="text" v-model="todo.content" />
-					</div>
-
-					<div class="actions">
-						<button class="delete" @click="removeTodo(todo)">Delete</button>
+						<div class="actions">
+							<button class="delete" @click="removeTodo(todo)">Delete</button>
+						</div>
 					</div>
 				</div>
-
 			</div>
 		</section>
 
