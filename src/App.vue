@@ -92,17 +92,21 @@ const addTodoAndLoadLogo = async (todo) => {
       logoPath: '',
       todos: [],
     };
+  }
 
-    try {
-      const logoPath = await loadLogo(todo.category);
-      groupedTodosLocalStorage.value[todo.category].logoPath = logoPath;
-    } catch (error) {
-      console.error(`Error loading logo for ${todo.category}:`, error);
-    }
+  try {
+    const logoPath = await loadLogo(todo.category);
+    groupedTodosLocalStorage.value[todo.category].logoPath = logoPath;
+  } catch (error) {
+    console.error(`Error loading logo for ${todo.category}:`, error);
   }
 
   groupedTodosLocalStorage.value[todo.category].todos.push(todo);
+
+  // Save the updated groupedTodosLocalStorage to localStorage
+  localStorage.setItem('groupedTodos', JSON.stringify(groupedTodosLocalStorage.value));
 };
+
 
 </script>
 
