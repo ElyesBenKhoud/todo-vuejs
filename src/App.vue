@@ -38,7 +38,7 @@ const addTodo = () => {
 
   todos.value.push(newTodo);
   addTodoAndLoadLogo(newTodo);
-  showToast('Todo added successfully!', 2500, 'linear-gradient(to right, #00b09b, #96c93d)');
+  showToast('Cumpărătură adăugat cu succes!', 2500, 'linear-gradient(90deg, rgba(106,215,73,1) 0%, rgba(126,236,79,1) 26%, rgba(176,255,251,1) 100%)');
   input_content.value = '';
   input_category.value = null;
 };
@@ -64,7 +64,7 @@ const removeTodoAndLogo = (todo) => {
 
 const removeTodo = (todo) => {
   removeTodoAndLogo(todo);
-  showToast('Todo removed successfully!');
+  showToast('Cumpărătură a fost șters cu succes!', 2500, 'linear-gradient(90deg, rgba(241,133,133,1) 0%, rgba(240,0,0,1) 99%, rgba(176,255,251,1) 100%)');
 };
 
 const groupedTodosLocalStorage = ref(JSON.parse(localStorage.getItem('groupedTodos')) || {});
@@ -115,7 +115,6 @@ const addTodoAndLoadLogo = async (todo) => {
     </section>
 
     <section class="create-todo">
-      <h3>Cumparaturi list !!</h3>
 
       <form id="new-todo-form" @submit.prevent="addTodo">
         <h4>Ce vrei sa cumperi ?</h4>
@@ -166,7 +165,7 @@ const addTodoAndLoadLogo = async (todo) => {
             <div class="brand"> <img src='./assets/auchanLogo.png' alt="auchan logo" class="store-logo" /> </div>
           </label>
         </div>
-        <input type="submit" value="Add todo" />
+        <input type="submit" value="Adăuga" />
       </form>
     </section>
 
@@ -186,7 +185,7 @@ const addTodoAndLoadLogo = async (todo) => {
             </div>
 
             <div class="actions">
-              <button class="delete" @click="removeTodo(todo)">Delete</button>
+              <button class="delete" @click="removeTodo(todo)">șterge</button>
             </div>
           </div>
         </div>
