@@ -16,7 +16,6 @@ Todo shopping app implemented in order to learn vueJs while the app remains for 
 
 <span style="display: flex; justify-content: center;">
     <img src="src/assets/homePage.png" style="width: 200px; height: 400px;" />
-    <img src="src/assets/item2.png" style="width: 200px; height: 400px;" />
     <img src="src/assets/itemAdded.png" style="width: 200px; height: 400px;" />
     <img src="src/assets/bought.png" style="width: 200px; height: 400px;" />
     <img src="src/assets/removed.png" style="width: 200px; height: 400px;" />
